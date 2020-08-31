@@ -4,15 +4,24 @@ This repository contains a modified DOOP extractor and a modified points-to spec
 Currently there are two points-to analyses implemented in form of logical specifications: context-insensitive with call-graph construction on the fly and context-sensitive (2-Heap + 1-Object). 
 
 The extractor can be build by typing 
+
 ```
 ./gradlew build
 ```
 
 The extractor can be invoked by typing 
+
 ```
 java -jar build/lib/extractor.jar <program-to-analyse.jar> -lsystem -d <fact-dir>
 ```
-where ```<program-to-analyze.jar>``` is the jar file for which the fact files are produced and ```<fact-dir>``` is the directory where the fact files are written to. 
+
+where `<program-to-analyze.jar>` is the jar file for which the fact files are produced and `<fact-dir>` is the directory where the fact files are written to. 
+
+To use an example from the `examples/` directory:
+
+```
+java -jar build/lib/extractor.jar examples/HelloWorld.jar -lsystem -d hello-facts
+```
 
 More information about DOOP can be found here:
 http://doop.program-analysis.org/
