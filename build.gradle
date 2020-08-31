@@ -4,25 +4,29 @@ repositories {
     mavenCentral()
 }
 
-def sootClassesJar = file('lib/sootclasses-2.5.0.jar')
+def sootClassesJar = file('lib/sootclasses-unreleased-develop.jar')
+// use this instead when testing with JDK7
+// def sootClassesJar = file('lib/sootclasses-2.5.0.jar')
 
 dependencies {
-  compile files(sootClassesJar)
+//    compile group: 'ca.mcgill.sable', name: 'soot', version: '4.1.0'
+    // getting a weird error using 4.1.0, use the `develop` branch instead.
+    implementation files(sootClassesJar)
 }
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 jar {
     from sourceSets.main.output
-    from configurations.runtime.collect {
+    from configurations.runtimeClasspath.collect {
         if (it.isDirectory()) return it
         return zipTree(it).matching {
             exclude 'META-INF/**'
         }
     }
-    baseName = 'extractor' 
+    archiveBaseName.set('extractor')
     manifest {
-        attributes 'Main-Class': 'Main'
+        attributes 'Main-Class': 'extractor.Main'
     }
 }

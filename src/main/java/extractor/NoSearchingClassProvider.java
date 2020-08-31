@@ -1,3 +1,5 @@
+package extractor;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -121,9 +123,8 @@ public class NoSearchingClassProvider implements ClassProvider {
    */
   public ClassSource find(String className) {
 	  Resource resource = _classes.get(className);
-
+	  String fileName = className.replace('.', '/') + ".class";
 	  if(resource == null) {
-		  String fileName = className.replace('.', '/') + ".class";
 
 		  for(ZipFile archive : _archives) {
 			  ZipEntry entry = archive.getEntry(fileName);
@@ -142,7 +143,9 @@ public class NoSearchingClassProvider implements ClassProvider {
 
 		  try {
 			  InputStream stream = resource.open();
-			  return new CoffiClassSource(className, stream);
+			  return new CoffiClassSource(className, stream, fileName);
+              // use this instead when testing with JDK7
+//			  return new CoffiClassSource(className, stream);
 		  }
 		  catch(IOException exc) {
 			  throw new RuntimeException(exc);

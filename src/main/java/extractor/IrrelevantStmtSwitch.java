@@ -1,3 +1,5 @@
+package extractor;
+
 import soot.jimple.*;
 import soot.jimple.StmtSwitch;
 

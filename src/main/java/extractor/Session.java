@@ -1,3 +1,5 @@
+package extractor;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -6,7 +8,7 @@ import soot.Unit;
 
 public class Session
 {
-  private Map<String, Integer> _map = new HashMap<String, Integer>();
+  private Map<String, Integer> _map = new HashMap<>();
 
   public int nextNumber(String s)
   {
@@ -14,15 +16,15 @@ public class Session
 
     if(x == null)
     {
-      x = new Integer(0);
+      x = 0;
     }
 
-    _map.put(s, new Integer(x.intValue() + 1));
+    _map.put(s, x + 1);
 
-    return x.intValue();
+    return x;
   }
 
-  private Map<Unit, Integer> _units = new HashMap<Unit, Integer>();
+  private Map<Unit, Integer> _units = new HashMap<>();
 
   public void numberUnits(Iterator<Unit> iterator)
   {
@@ -30,7 +32,7 @@ public class Session
 
     while(iterator.hasNext())
     {
-      _units.put(iterator.next(), new Integer(index));
+      _units.put(iterator.next(), index);
       index++;
     }
   }

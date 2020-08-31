@@ -32,6 +32,14 @@ https://github.com/oracle/souffle/tree/master/samples
 How to install and run the Soufflé can be found here:
 http://github.com/souffle-lang/souffle
 
+### Things Davis Did ###
 
-
-
+* Upgraded Gradle Wrapper (you dont do anything for this)
+* Use Jdk8 (make sure you use jdk8 for gradle and java commands!)
+	* Compile the examples yourself (`/usr/lib/.../jdk8/bin/jar cf example.jar example.java`)
+	* `JAVA_HOME=/usr/lib/jvm/jdk8u265-b01 ./gradlew build`
+	* `/usr/lib/jvm/jdk8u265-b01/bin/java -jar build/libs/extractor.jar examples/HelloWorld.jar -lsystem -d hello-facts -allow-phantom`
+* use `devlop` brach of soot, unreleased!!
+    * I hand-compiled soots JAR. Didnt help as much as expected.
+* RIGHT NOW PHANTOMS ARE REQUIRED TO BE ALLOWED
+    * when you run the jar...  `java -jar ... -allow-phantom`. SORRY! IDK DONT BLAME DAVIS
