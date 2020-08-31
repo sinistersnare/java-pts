@@ -193,7 +193,7 @@ public class Main {
       soot.options.Options.v().set_allow_phantom_refs(true);
     }
 
-    Collection<SootClass> classes = new ArrayList<SootClass>();
+    Collection<SootClass> classes = new ArrayList<>();
     for(String className : provider.getClassNames())
     {
       scene.loadClass(className, SootClass.SIGNATURES);

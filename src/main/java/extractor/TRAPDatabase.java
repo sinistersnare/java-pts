@@ -19,7 +19,7 @@ public class TRAPDatabase implements Database {
 	{
 		super();
 		_directory = directory;
-		_writers = new HashMap<String, Writer>();
+		_writers = new HashMap<>();
 	}
 
 	public void close() throws IOException

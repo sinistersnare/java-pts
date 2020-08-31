@@ -198,7 +198,7 @@ public class FactWriter
    */
   public void writeAssignNewMultiArrayExpr(SootMethod m, Local l, NewMultiArrayExpr expr, Session session)
   {
-    Type type = (ArrayType) expr.getType();
+    Type type = expr.getType();
 
     // local variable to assign the current array allocation to.
     String assignTo = _rep.local(m, l);

@@ -36,8 +36,8 @@ public class NoSearchingClassProvider implements ClassProvider {
   private List<ZipFile> _archives;
 
   public NoSearchingClassProvider() {
-    _classes = new HashMap<String, Resource>();
-    _archives = new ArrayList<ZipFile>();
+    _classes = new HashMap<>();
+    _archives = new ArrayList<>();
   }
 
   public Set<String> getClassNames() {
@@ -48,8 +48,8 @@ public class NoSearchingClassProvider implements ClassProvider {
    * Adds a class file. Returns the class name of the class that was
    * added.
    */
-  public String addClass(File f) throws IOException {
-    return addClass(f.getPath(), new FileResource(f));
+  public void addClass(File f) throws IOException {
+      addClass(f.getPath(), new FileResource(f));
   }
 
   /**
@@ -66,16 +66,9 @@ public class NoSearchingClassProvider implements ClassProvider {
   public String addClass(String path, Resource resource) throws IOException {
     ClassFile c = new ClassFile(path);
 
-    InputStream stream = null;
-    try {
-      stream = resource.open();
-      c.loadClassFile(stream);
-    }
-    finally {
-      if(stream != null) {
-	stream.close();
+      try (InputStream stream = resource.open()) {
+          c.loadClassFile(stream);
       }
-    }
 
     String className = c.toString().replace('/', '.');
 
@@ -93,20 +86,15 @@ public class NoSearchingClassProvider implements ClassProvider {
   /**
    * Adds an application archive to the class provider.
    */
-  public List<String> addArchive(File f) throws IOException {
-	  List<String> result = new ArrayList<String>();
-
+  public void addArchive(File f) throws IOException {
 	  ZipFile archive = new ZipFile(f);
 	  Enumeration<? extends ZipEntry> entries = archive.entries();
 	  while(entries.hasMoreElements()) {
 		  ZipEntry entry = entries.nextElement();
 		  if(entry.getName().endsWith(".class")) {
-			  String className = addClass(archive, entry);
-			  result.add(className);
+			  addClass(archive, entry);
 		  }
 	  }
-
-	  return result;
   }
 
   /**
@@ -159,8 +147,8 @@ public class NoSearchingClassProvider implements ClassProvider {
    *
    * Similar to FoundFile in SourceLocator, which is not accessible.
    */
-  public static interface Resource {
-    public InputStream open() throws IOException;
+  public interface Resource {
+    InputStream open() throws IOException;
   }
 
   /**
@@ -206,7 +194,7 @@ public class NoSearchingClassProvider implements ClassProvider {
       
       
       final int N = 1024;
-      int ln = 0;
+      int ln;
       int count = 0;
       while (sz > 0 &&  
 	(ln = is.read(buf, count, Math.min(N, sz))) != -1) {

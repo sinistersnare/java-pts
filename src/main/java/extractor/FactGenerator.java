@@ -39,7 +39,7 @@ public class FactGenerator
     _writer.writeClassOrInterfaceType(c);
 
     // the isInterface condition prevents Object as superclass of interface
-    if(c.hasSuperclass() && !c.isInterface()) 
+    if(c.hasSuperclass() && !c.isInterface())
     {
       _writer.writeDirectSuperclass(c, c.getSuperclass());
     }
@@ -50,9 +50,9 @@ public class FactGenerator
     }
 
     int idx = 0;
-    // compute field index offset 
-    // (i.e. sum up all number of fields of all super classes)  
-    if(c.hasSuperclass() && !c.isInterface()) { 
+    // compute field index offset
+    // (i.e. sum up all number of fields of all super classes)
+    if(c.hasSuperclass() && !c.isInterface()) {
        SootClass s = c.getSuperclass();
        while( s.hasSuperclass() && !s.isInterface()) {
           idx = idx + s.getFields().size();
@@ -62,7 +62,7 @@ public class FactGenerator
     for(SootField f : c.getFields())
     {
       generate(f, idx);
-      idx = idx + 1; 
+      idx = idx + 1;
     }
 
     for(SootMethod m : c.getMethods())
@@ -94,9 +94,9 @@ public class FactGenerator
       _writer.writeFieldModifier(f, "static");
     if(Modifier.isSynchronized(modifiers))
       _writer.writeFieldModifier(f, "synchronized");
-    if(Modifier.isTransient(modifiers)) 
+    if(Modifier.isTransient(modifiers))
       _writer.writeFieldModifier(f, "transient");
-    if(Modifier.isVolatile(modifiers)) 
+    if(Modifier.isVolatile(modifiers))
       _writer.writeFieldModifier(f, "volatile");
     // TODO interface?
     // TODO strictfp?
@@ -130,10 +130,10 @@ public class FactGenerator
     if(Modifier.isSynchronized(modifiers))
       _writer.writeMethodModifier(m, "synchronized");
     // TODO would be nice to have isVarArgs in Soot
-    if(Modifier.isTransient(modifiers)) 
+    if(Modifier.isTransient(modifiers))
       _writer.writeMethodModifier(m, "varargs");
     // TODO would be nice to have isBridge in Soot
-    if(Modifier.isVolatile(modifiers)) 
+    if(Modifier.isVolatile(modifiers))
       _writer.writeMethodModifier(m, "bridge");
     // TODO interface?
     // TODO strictfp?
@@ -173,9 +173,9 @@ public class FactGenerator
 	b = Shimple.v().newBody(b);
 	m.setActiveBody(b);
       }
-      
+
       generate(m, b, session);
-      
+
       m.releaseActiveBody();
     }
   }
@@ -211,7 +211,7 @@ public class FactGenerator
 	}
 	else if(stmt instanceof InvokeStmt)
 	{
-	  _writer.writeInvoke(m, ((InvokeStmt) stmt).getInvokeExpr(), session);
+	  _writer.writeInvoke(m, stmt.getInvokeExpr(), session);
 	}
 	else if(stmt instanceof ReturnStmt)
 	{
@@ -299,7 +299,7 @@ public class FactGenerator
     else if(right instanceof StaticFieldRef)
     {
       StaticFieldRef ref = (StaticFieldRef) right;
-      
+
       if(left.getType() instanceof PrimType)
       {
 	// These load operations are not relevant for points-to
@@ -317,7 +317,7 @@ public class FactGenerator
       ArrayRef ref = (ArrayRef) right;
       Local base = (Local) ref.getBase();
       Value index = ref.getIndex();
-      
+
       if(index instanceof Local || index instanceof IntConstant)
       {
 	_writer.writeLoadArrayIndex(inMethod, base, left);
@@ -384,7 +384,7 @@ public class FactGenerator
 
     // first make sure we have local variable for the right-hand-side.
     Local rightLocal = null;
-    
+
     if(right instanceof Local)
     {
       rightLocal = (Local) right;
@@ -397,7 +397,7 @@ public class FactGenerator
     {
       rightLocal = _writer.writeClassConstantExpression(inMethod, (ClassConstant) right, session);
     }
-    
+
     // arrays
     if(left instanceof ArrayRef && rightLocal != null)
     {
@@ -437,7 +437,7 @@ public class FactGenerator
       // affect the call graph.
       StaticFieldRef ref = (StaticFieldRef) left;
       _writer.writeStorePrimStaticField(inMethod, ref.getField());
-      
+
       // TODO: the NullConstant is a bit hacky. It's the right behaviour, but it's a bit ugly to call this a Prim.
     }
     else if(left instanceof StaticFieldRef && rightLocal != null)
@@ -485,7 +485,7 @@ public class FactGenerator
   public void generate(SootMethod inMethod, ReturnStmt stmt, Session session)
   {
     Value v = stmt.getOp();
-    
+
     if(v instanceof Local)
     {
       _writer.writeReturnVar(inMethod, (Local) v);
@@ -493,7 +493,7 @@ public class FactGenerator
     else if(v instanceof StringConstant)
     {
       Local tmp = _writer.writeStringConstantExpression(inMethod, (StringConstant) v, session);
-      _writer.writeReturnVar(inMethod, tmp);      
+      _writer.writeReturnVar(inMethod, tmp);
     }
     else if(v instanceof ClassConstant)
     {
@@ -518,7 +518,7 @@ public class FactGenerator
   public void generate(SootMethod inMethod, ThrowStmt stmt, Session session)
   {
     Value v = stmt.getOp();
-    
+
     if(v instanceof Local)
     {
       _writer.writeThrow(inMethod, (Local) v, session);

@@ -20,7 +20,7 @@ public class CSVDatabase implements Database
 	{
 		super();
 		_directory = directory;
-		_writers = new HashMap<String, Writer>();
+		_writers = new HashMap<>();
 	}
 
 	public void close() throws IOException
@@ -34,7 +34,7 @@ public class CSVDatabase implements Database
         public void register(String predicate) {
 		try
 		{
-			Writer w = getWriter(predicate);
+			getWriter(predicate);
 		}
 		catch(IOException exc)
 		{

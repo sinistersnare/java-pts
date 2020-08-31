@@ -3,16 +3,16 @@ package extractor;
 import java.io.IOException;
 
 public interface Database {
-  public void register(String predicate); 
-  public void add(String predicate, Column arg);
-  public void add(String predicate, Column arg1, Column arg2);
-  public void add(String predicate, Column arg1, Column arg2, Column arg3);
-  public void add(String predicate, Column arg1, Column arg2, Column arg3, Column arg4);
-  public Column addEntity(String string, String key);
-  public Column asColumn(String arg);
-  public Column asIntColumn(String arg);
-  public Column asEntity(String arg);
+  void register(String predicate);
+  void add(String predicate, Column arg);
+  void add(String predicate, Column arg1, Column arg2);
+  void add(String predicate, Column arg1, Column arg2, Column arg3);
+  void add(String predicate, Column arg1, Column arg2, Column arg3, Column arg4);
+  Column addEntity(String string, String key);
+  Column asColumn(String arg);
+  Column asIntColumn(String arg);
+  Column asEntity(String arg);
   
-  public void close() throws IOException;
+  void close() throws IOException;
 
 }
